@@ -1,8 +1,34 @@
+import json
+from pathlib import Path
+
+filepath = Path("data.json")
+
 contacts = {
     1:["Anna", 23456789],
     2:["Bjørn", 99887766],
     3:["Clara", 11223344]
 }
+
+
+def load(data):
+    try:
+        with open("data.json", "r", encoding="utf-8") as file:
+            data = json.load(file)
+
+        data = {int(key): value for key, value in data.items()}
+
+    except FileNotFoundError:
+        data = {}
+        with open("data.json", "w", encoding="utf-8") as file:
+            json.dump(data, file, indent=4)
+    return data
+    
+
+    
+
+def save(contacts):
+    with open("data.json", "w", encoding="utf-8") as file:
+        json.dump(contacts, file, indent=4)
 
 def add():
     print("\n------------------")
@@ -12,10 +38,12 @@ def add():
     if number == False:
         return
     number=int(number)
-    
-    for i in contacts:
-        continue
-    i=i+1
+    try:
+        for i in contacts:
+            continue
+        i=i+1
+    except:
+        i = 0
 
     contacts[i] = [name, number]
 
@@ -59,7 +87,7 @@ def find():
         if choice == "3":
             break
         elif choice == "2":
-            x = find2(1)
+            x = finder(1)
             if x == False:
                 print("Den findes ikke")
             else:
@@ -67,7 +95,7 @@ def find():
                 print(contacts.get(x))
             break
         elif choice == "1":
-            x = find2(2)
+            x = finder(2)
             if x == False:
                 print("Den findes ikke")
             else:
@@ -76,7 +104,7 @@ def find():
             break
     back()
 
-def find2(option):
+def finder(option):
     if option==1:
         inp=input("Write name:")
         for i in contacts:
@@ -99,28 +127,65 @@ def showall(contacts):
     print("\n------------------")
     print("All contacts")
     print("------------------")
-    for navn, nummer in contacts.items():
-        print(f"{navn}: {nummer}")
+    if contacts == None:
+        print("Der er ingen")
+    else:
+        for navn, nummer in contacts.items():
+            print(f"{navn}: {nummer}")
 
+    back()
+
+def remove(contacts):
+    print("\n------------------")
+    print("Fjern contact")
+    print("------------------")
+    while True:
+        print("\n1. Find via number")
+        print("2. Find via name")
+        print("3. Exit")
+        choice = input("Choose an option: ")
+
+        if choice == "3":
+            break
+        elif choice == "2":
+            x = finder(1)
+            if x == False:
+                print("Den findes ikke")
+            else:
+                kon = contacts.pop(x)
+                print("Fjernede kontakt:", kon)
+            break
+        elif choice == "1":
+            x = finder(2)
+            if x == False:
+                print("Den findes ikke")
+            else:
+                kon = contacts.pop(x)
+                print("Fjernede kontakt:", kon)
+            break
     back()
 
 def back():
     print(" ")
-    input("Press button to continue")
+    input("Press enter to continue")
     return
 
-
-
+#loader alle kontakter fra json fil
+contacts = load(contacts)
 
 while True:
     print("\n1. Add contact")
     print("2. Find contact")
     print("3. Show all contacts")
-    print("4. Exit")
+    print("4. Fjern contact")
+    print("5. Exit")
     choice = input("Choose an option: ")
 
-    if choice == "4":
+    if choice == "5":
+        save(contacts)
         break
+    elif choice == "4":
+            remove(contacts)
     elif choice == "3":
         showall(contacts)
     elif choice == "2":
