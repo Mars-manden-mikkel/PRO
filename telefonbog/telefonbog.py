@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-filepath = Path("data.json")
+filepath = Path(__file__).resolve().parent / "data.json"
 
 contacts = {
     1:["Anna", 23456789],
@@ -12,14 +12,14 @@ contacts = {
 
 def load(data):
     try:
-        with open("data.json", "r", encoding="utf-8") as file:
+        with open(filepath, "r", encoding="utf-8") as file:
             data = json.load(file)
 
         data = {int(key): value for key, value in data.items()}
 
     except FileNotFoundError:
         data = {}
-        with open("data.json", "w", encoding="utf-8") as file:
+        with open(filepath, "w", encoding="utf-8") as file:
             json.dump(data, file, indent=4)
     return data
     
@@ -27,7 +27,7 @@ def load(data):
     
 
 def save(contacts):
-    with open("data.json", "w", encoding="utf-8") as file:
+    with open(filepath, "w", encoding="utf-8") as file:
         json.dump(contacts, file, indent=4)
 
 def add():
