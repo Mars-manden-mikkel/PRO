@@ -88,7 +88,7 @@ def find():
             break
         elif choice == "2":
             x = finder(1)
-            if x == False:
+            if x == None:
                 print("Den findes ikke")
             else:
                 print("\nDen findes")
@@ -96,7 +96,7 @@ def find():
             break
         elif choice == "1":
             x = finder(2)
-            if x == False:
+            if x == None:
                 print("Den findes ikke")
             else:
                 print("\nDen findes")
@@ -111,7 +111,7 @@ def finder(option):
             liste=contacts.get(i)
             if inp == liste[0]:
                 return i
-        return False
+        return None
 
     elif option==2: 
         inp=getnumber()
@@ -120,7 +120,7 @@ def finder(option):
             liste=contacts.get(i)
             if inp == liste[1]:
                 return i
-        return False
+        return None
 
 
 def showall(contacts):
