@@ -58,6 +58,7 @@ def getnumber():
         if number == "Q":
             number=False
             break
+        number = number.replace(" ", "")
         i = len(number)
         if i==8: 
             x=True 
